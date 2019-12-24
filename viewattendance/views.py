@@ -12,8 +12,10 @@ def home_page(request):
     #return response
     return render(request, "index.html", {})
 
+
 def student_login(request):
-    return render(request, "login.html", {})
+    return render(request, "studentlogin.html", {})
+
 
 def teacher_login(request):
-    return HttpResponse("this is the teacher login page")
+    return render(request, "teacherlogin.html", {})
