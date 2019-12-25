@@ -55,10 +55,22 @@ class Teacher(models.Model):
 
 class Course(models.Model):
     course_id = models.CharField(max_length=20, null=False, unique=True, verbose_name="Course ID",
-                                  help_text="Course ID")
+                                    help_text="Course ID")
     course_name = models.CharField(max_length=90, null=False, verbose_name="Course Name",
                                     help_text="Name of the course")
     branch_name = models.ForeignKey(Branch, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.course_id
+
+
+class Teaching(models.Model):
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE, default=1)
+    course_id = models.ForeignKey(Course,on_delete=models.CASCADE, default=1)
+    class_id = models.ForeignKey(Classroom,on_delete=models.CASCADE, default=1)
+
+    class Meta:
+        unique_together = ('course_id', 'class_id',)
+
+    def __str__(self):
+        return str(self.teacher_id)+" "+str(self.course_id)+" "+str(self.class_id)
