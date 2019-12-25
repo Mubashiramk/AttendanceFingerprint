@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models import ImageField
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 import os
-# Create your models here.
 
 
 def get_image_path(instance, filename):
@@ -26,7 +25,6 @@ class Classroom(models.Model):
 
     def __str__(self):
         return self.class_id
-# class id+branch
 
 
 class Student(models.Model):
@@ -52,4 +50,15 @@ class Teacher(models.Model):
     def __str__(self):
         return self.teacher_id
 
-# id,branch,class+subject
+# class+subject
+
+
+class Course(models.Model):
+    course_id = models.CharField(max_length=20, null=False, unique=True, verbose_name="Course ID",
+                                  help_text="Course ID")
+    course_name = models.CharField(max_length=90, null=False, verbose_name="Course Name",
+                                    help_text="Name of the course")
+    branch_name = models.ForeignKey(Branch, on_delete=models.CASCADE, default=1)
+
+    def __str__(self):
+        return self.course_id
