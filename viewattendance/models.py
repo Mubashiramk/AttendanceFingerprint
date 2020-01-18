@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import ImageField
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser
 import os
 
 
@@ -11,16 +11,18 @@ def get_image_path(instance, filename):
 class Branch(models.Model):
     class Meta:
         verbose_name_plural = "Branches"
-    branch_name = models.CharField(max_length=30, null=False, unique=True, verbose_name="Branch Name",
-                                  help_text="Branch name")
+    branch_name = models.CharField(max_length=30, null=False, unique=True,
+                                   verbose_name="Branch Name",
+                                   help_text="Branch name")
 
     def __str__(self):
         return self.branch_name
 
 
 class Classroom(models.Model):
-    class_id = models.CharField(max_length=20, null=False, unique=True, verbose_name="Class ID",
-                                  help_text="Class ID")
+    class_id = models.CharField(max_length=20, null=False, unique=True,
+                                verbose_name="Class ID",
+                                help_text="Class ID")
     branch_name = models.ForeignKey(Branch, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
@@ -28,8 +30,10 @@ class Classroom(models.Model):
 
 
 class Student(models.Model):
-    student_id = models.CharField(max_length=20, null=False, unique=True, verbose_name="Student ID", help_text="Student ID")
-    student_name = models.CharField(max_length=90, null=False, verbose_name="Student Name", help_text="Name of the student")
+    student_id = models.CharField(max_length=20, null=False, unique=True,
+                                  verbose_name="Student ID", help_text="Student ID")
+    student_name = models.CharField(max_length=90, null=False,
+                                    verbose_name="Student Name", help_text="Name of the student")
     class_id = models.ForeignKey(Classroom, on_delete=models.CASCADE, default=1)
     profile_image = ImageField(upload_to=get_image_path, blank=True, null=True)
 
@@ -54,10 +58,12 @@ class Teacher(models.Model):
 
 
 class Course(models.Model):
-    course_id = models.CharField(max_length=20, null=False, unique=True, verbose_name="Course ID",
-                                    help_text="Course ID")
-    course_name = models.CharField(max_length=90, null=False, verbose_name="Course Name",
-                                    help_text="Name of the course")
+    course_id = models.CharField(max_length=20, null=False, unique=True,
+                                 verbose_name="Course ID",
+                                 help_text="Course ID")
+    course_name = models.CharField(max_length=90, null=False,
+                                   verbose_name="Course Name",
+                                   help_text="Name of the course")
     branch_name = models.ForeignKey(Branch, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
@@ -66,8 +72,8 @@ class Course(models.Model):
 
 class Teaching(models.Model):
     teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE, default=1)
-    course_id = models.ForeignKey(Course,on_delete=models.CASCADE, default=1)
-    class_id = models.ForeignKey(Classroom,on_delete=models.CASCADE, default=1)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, default=1)
+    class_id = models.ForeignKey(Classroom, on_delete=models.CASCADE, default=1)
 
     class Meta:
         unique_together = ('course_id', 'class_id',)

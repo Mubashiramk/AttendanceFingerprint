@@ -23,6 +23,7 @@ class TeacherAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('course_id', 'course_name', 'branch_name')
 
+
 class TeachingAdmin(admin.ModelAdmin):
     list_display = ('teacher_id', 'course_id', 'class_id')
 
