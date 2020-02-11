@@ -2,6 +2,9 @@ from django.db import models
 
 
 class studenttable(models.Model):
+    class Meta:
+        verbose_name = 'student'
+        verbose_name_plural = 'students'
     sid = models.CharField(max_length=20, null=False, unique=True,
                                 verbose_name="Student ID",
                                 help_text="Student ID")

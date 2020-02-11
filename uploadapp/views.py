@@ -34,7 +34,15 @@ def result(request):
     df = pd.read_csv(url)
     try:
         for ind in df.index:
-            studenttable.objects.filter(sid=str(df['UID'][ind])).update(status=df['Status'][ind])
+            # studenttable.objects.filter(sid=str(df['UID'][ind])).update(status=df['Status'][ind])
+            obj = studenttable.objects.get(sid=str(df['UID'][ind]))
+            obj.status = str(df['Status'][ind])
+            obj.save()
     except:
         return render(request, 'resultpage.html', {'error': True})
+    return render(request, 'resultpage.html', {'success': True})
+
+
+def clear(request):
+    studenttable.objects.update(status='-')
     return render(request, 'resultpage.html', {'success': True})
