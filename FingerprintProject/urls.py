@@ -20,4 +20,5 @@ urlpatterns = [
     # path('polls/', include('polls.urls')),
     path('', include('viewattendance.urls')),
     path('admin/', admin.site.urls),
+    path('upload/', include('uploadapp.urls')),
 ]
