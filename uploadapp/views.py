@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 import jinja2
 from uploadapp.models import studenttable
+from .forms import StudentForm
 
 
 def condformat(row):
@@ -27,7 +28,9 @@ def uploadhome(request):
                                                                               'border-style': 'dotted'})
         context = {'loaded_data': s.render(), 'button': True}
         return render(request, 'showupload.html', context)
-    return render(request, 'uploadhome.html')
+    student = StudentForm()
+
+    return render(request, 'uploadhome.html',{'form':student})
 
 
 def result(request):
