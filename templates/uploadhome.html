@@ -16,11 +16,15 @@
     {% csrf_token %}
     Class : {{ form.classname }}
     <br>
+    <br>
     Date : {{ form.date }}
+    <br>
     <br>
     Hour : {{ form.hour }}
     <br>
+    <br>
     Subject Code : {{ form.subcode }}
+    <br>
     <br>
     <input type="file" name="document" >
     <button type="submit" class="btn btn-primary" >Upload File</button>
