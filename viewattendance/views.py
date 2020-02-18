@@ -10,7 +10,7 @@ def home_page(request):
     # response.add_post_render_callback(my_render_callback)
     # Return the response
     #return response
-    return render(request, "index.html", {})
+    return render(request, "index.html", {})  # index.html
 
 
 def student_login(request):

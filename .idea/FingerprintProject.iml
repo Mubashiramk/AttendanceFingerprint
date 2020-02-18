@@ -16,10 +16,22 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.7 (FingerprintProject)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="moment" level="application" />
+    <orderEntry type="library" name="bootstrap-datetimepicker-standalone" level="application" />
+    <orderEntry type="library" name="bootstrap-datetimepicker" level="application" />
+    <orderEntry type="library" name="jquery-3.2.1.slim" level="application" />
+    <orderEntry type="library" name="popper" level="application" />
+    <orderEntry type="library" name="bootstrap-datepicker" level="application" />
+    <orderEntry type="library" name="jquery-1.11.3" level="application" />
+    <orderEntry type="library" name="bootstrap-iso" level="application" />
+    <orderEntry type="library" name="bootstrap-datepicker3" level="application" />
+    <orderEntry type="library" name="gijgo" level="application" />
+    <orderEntry type="library" name="jquery-1.11.1" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

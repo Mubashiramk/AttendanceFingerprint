@@ -4,6 +4,7 @@ from django.core.files.storage import FileSystemStorage
 import jinja2
 from uploadapp.models import studenttable
 from .forms import StudentForm
+from viewattendance.models import Classroom, Course
 
 
 def condformat(row):
@@ -14,9 +15,15 @@ def condformat(row):
 def uploadhome(request):
     if request.method == 'POST':
         try:
+            classname = request.POST['class']
+            date = request.POST['date']
+            hour = request.POST['hour']
+            course = request.POST['course']
             uploaded_file = request.FILES['document']
+            if classname == "" or date == "" or hour == "" or course == "":
+                return render(request, 'index.html', {'error': True})
         except:
-            return render(request, 'uploadhome.html', {'error': True})
+            return render(request, 'index.html', {'error': True})
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
         global url
@@ -28,9 +35,10 @@ def uploadhome(request):
                                                                               'border-style': 'dotted'})
         context = {'loaded_data': s.render(), 'button': True}
         return render(request, 'showupload.html', context)
-    student = StudentForm()
-
-    return render(request, 'uploadhome.html',{'form':student})
+    context = {}
+    context['classoptions'] = [str(elem[0]) for elem in list(Classroom.objects.all().values_list('class_id'))]
+    context['courseoptions'] = [str(elem[0]) for elem in list(Course.objects.all().values_list('course_id'))]
+    return render(request, 'index.html', context)
 
 
 def result(request):
@@ -47,5 +55,5 @@ def result(request):
 
 
 def clear(request):
-    studenttable.objects.update(status='-')
+    studenttable.objects.update(status='A')
     return render(request, 'resultpage.html', {'success': True})

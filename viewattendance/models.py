@@ -80,3 +80,8 @@ class Teaching(models.Model):
 
     def __str__(self):
         return str(self.teacher_id)+" "+str(self.course_id)+" "+str(self.class_id)
+
+
+class Enrollment(models.Model):
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE, default=1)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, default=1)

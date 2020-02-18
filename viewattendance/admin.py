@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 # Register your models here.
-from viewattendance.models import Student, Branch, Classroom, Teacher, Course, Teaching
+from viewattendance.models import Student, Branch, Classroom, Teacher, Course, Teaching, Enrollment
 
 
 class StudentAdmin(admin.ModelAdmin):
@@ -28,9 +28,14 @@ class TeachingAdmin(admin.ModelAdmin):
     list_display = ('teacher_id', 'course_id', 'class_id')
 
 
+class EnrollAdmin(admin.ModelAdmin):
+    list_display = ('student_id', 'course_id')
+
+
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Branch, BranchAdmin)
 admin.site.register(Classroom, ClassAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Teaching, TeachingAdmin)
+admin.site.register(Enrollment, EnrollAdmin)
