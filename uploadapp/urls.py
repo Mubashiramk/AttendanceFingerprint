@@ -6,4 +6,6 @@ urlpatterns = [
     path('home/result/', views.result, name='result'),
     path('home/clear/', views.clear, name='clear'),
     path('waiting/', views.waitscreen, name='waitscreen'),
+    path('uploading/', views.upload, name='upload'),
+    path('show/', views.show, name='upload'),
 ]

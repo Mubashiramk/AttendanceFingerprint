@@ -45,33 +45,34 @@ def uploadhome(request):
             context['courseoptions'] = [str(elem[0]) for elem in list(Course.objects.all().values_list('course_id'))]
             context['error'] = True
             return render(request, 'index.html', context)
-
         return redirect('/upload/waiting/')
-
-        url = "./media/out.csv"
-        df = pd.read_csv(url, names=["UID"], header=None)
-        classid = Classroom.objects.get(class_id=classname)
-        absentadd = Student.objects.filter(class_id=classid)
-        df = df.drop_duplicates(subset=["UID"], keep='first')
-        l = [int(x) for x in df['UID']]
-        global statlist
-        statlist = ['P' for elem in df['UID']]
-        df['Status'] = statlist
-        for elem in absentadd:
-            if elem.roll_no not in l:
-                df = df.append({'UID': elem.roll_no, 'Status': 'A'}, ignore_index=True)
-
-        s = df.style.apply(condformat, axis=1).hide_index().set_properties(**{'text-align': 'center',
-                                                                              'border-color': 'Black',
-                                                                              'border-width': 'thin',
-                                                                              'border-style': 'dotted'})
-        context['loaded_data'] = s.render()
-        context['button'] = True
-        return render(request, 'showupload.html', context)
     context = {}
     context['classoptions'] = [str(elem[0]) for elem in list(Classroom.objects.all().values_list('class_id'))]
     context['courseoptions'] = [str(elem[0]) for elem in list(Course.objects.all().values_list('course_id'))]
     return render(request, 'index.html', context)
+
+
+def show(request):
+    url = "./media/out.csv"
+    df = pd.read_csv(url, names=["UID"], header=None)
+    classid = Classroom.objects.get(class_id=context['classname'])
+    absentadd = Student.objects.filter(class_id=classid)
+    df = df.drop_duplicates(subset=["UID"], keep='first')
+    l = [int(x) for x in df['UID']]
+    global statlist
+    statlist = ['P' for elem in df['UID']]
+    df['Status'] = statlist
+    for elem in absentadd:
+        if elem.roll_no not in l:
+            df = df.append({'UID': elem.roll_no, 'Status': 'A'}, ignore_index=True)
+
+    s = df.style.apply(condformat, axis=1).hide_index().set_properties(**{'text-align': 'center',
+                                                                          'border-color': 'Black',
+                                                                          'border-width': 'thin',
+                                                                          'border-style': 'dotted'})
+    context['loaded_data'] = s.render()
+    context['button'] = True
+    return render(request, 'showupload.html', context)
 
 
 def result(request):
@@ -122,3 +123,8 @@ def waitscreen(request):
     if not test_device():
         return render(request, "laucherror.html")
     return render(request, 'waitpress.html', {})
+
+
+def upload(request):
+    use_device()
+    return redirect('/upload/show/')
