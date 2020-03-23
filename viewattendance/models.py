@@ -36,9 +36,13 @@ class Student(models.Model):
                                     verbose_name="Student Name", help_text="Name of the student")
     class_id = models.ForeignKey(Classroom, on_delete=models.CASCADE, default=1)
     profile_image = ImageField(upload_to=get_image_path, blank=True, null=True)
+    roll_no = models.IntegerField(verbose_name="Roll Number", null=True,)
 
     def __str__(self):
         return self.student_id
+
+    class Meta:
+        unique_together = ('student_id', 'class_id', 'roll_no')
 
 # fingerprint,class
 
@@ -58,7 +62,7 @@ class Teacher(models.Model):
 
 
 class Course(models.Model):
-    course_id = models.CharField(max_length=20, null=False, unique=True,
+    course_id = models.CharField(max_length=50, null=False, unique=True,
                                  verbose_name="Course ID",
                                  help_text="Course ID")
     course_name = models.CharField(max_length=90, null=False,
@@ -85,3 +89,19 @@ class Teaching(models.Model):
 class Enrollment(models.Model):
     student_id = models.ForeignKey(Student, on_delete=models.CASCADE, default=1)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE, default=1)
+
+
+class Attendance(models.Model):
+    student_id = models.ForeignKey(Student,  on_delete=models.CASCADE, default=1)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, default=1)
+    date = models.DateField()
+    class_id = models.ForeignKey(Classroom, on_delete=models.CASCADE, default=1)
+    hour = models.CharField(max_length=1, choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7')])
+    status = models.CharField(max_length=32,
+                              choices=[('Present', 'Present'), ('Absent', 'Absent'), ('-', '-')],)
+
+    def __str__(self):
+        return str(self.student_id)+" "+str(self.course_id)+" "+str(self.class_id)
+
+    class Meta:
+        unique_together = ('student_id', 'course_id', 'hour', 'date')

@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -64,11 +64,9 @@
                     <h4 class="title" style="text-align: center">Upload attendance</h4>
                     <form method="POST" enctype="multipart/form-data" action="">
                     {% csrf_token %}
-
-
-                        <div class="col-2">
                                 <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select2-search">
+
+                        <div class="col-2">                <div class="rs-select2 js-select-simple select2-search">
                                         <select name="class">
                                             <option disabled="disabled" selected="selected">Select Class</option>
                                             {% for elem in classoptions %}
@@ -119,7 +117,22 @@
                                 <div class="select-dropdown"></div>
                             </div>
                         </div>
-                        <input type="file" name="document" >
+                        <!--<input type="file" name="document" >-->
+                        <button type="button" class="btn btn--radius btn--green"
+                                onclick="location.href='{% url 'testdevice' %}'">
+                            Text Device Connection</button>
+
+                        {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+
+
                         {% if error %}
                             <div class="alert">
   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>

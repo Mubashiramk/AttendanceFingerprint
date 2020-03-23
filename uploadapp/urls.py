@@ -6,4 +6,5 @@ urlpatterns = [
     path('home/', views.uploadhome, name='uploadhome'),
     path('home/result/', views.result, name='result'),
     path('home/clear/', views.clear, name='clear'),
+    path('home/test/', views.testdevice, name='testdevice'),
 ]
