@@ -6,8 +6,8 @@ def test_device():
     try:
         ser = serial.Serial('COM3', 9600)
     except:
-        return True
-    return False
+        return False
+    return True
 
 
 def use_device():
