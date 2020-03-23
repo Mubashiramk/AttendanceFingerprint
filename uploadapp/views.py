@@ -1,14 +1,15 @@
 import pandas as pd
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render, redirect
 import jinja2
 from .devicetester import *
 from django.contrib import messages
-from uploadapp.models import studenttable, attendancetable
+from uploadapp.models import studenttable
 from viewattendance.models import Classroom, Course, Attendance, Student
-global url
+
 global statlist
+global context
+
 
 def condformat(row):
     color = 'background-color: {}'.format('green' if row.Status == 'P' else 'red')
@@ -16,19 +17,19 @@ def condformat(row):
 
 
 def uploadhome(request):
+    if not test_device():
+        return render(request, "laucherror.html")
     if request.method == 'POST':
-        if not test_device():
-            messages.info(request, 'The device is not connected')
-            return HttpResponseRedirect('/upload/')
         try:
-            global classname
+            global context
             classname = request.POST['class']
-            global date
+            context['classname'] = classname
             date = request.POST['date']
-            global hour
+            context['date'] = date
             hour = request.POST['hour']
-            global course
+            context['hour'] = hour
             course = request.POST['course']
+            context['course'] = course
             # uploaded_file = request.FILES['document']
             if classname == "" or date == "" or hour == "" or course == "":
                 context = {}
@@ -44,11 +45,9 @@ def uploadhome(request):
             context['courseoptions'] = [str(elem[0]) for elem in list(Course.objects.all().values_list('course_id'))]
             context['error'] = True
             return render(request, 'index.html', context)
-        # fs = FileSystemStorage()
-        # name = fs.save(uploaded_file.name, uploaded_file)
-        # todo capure data store in media and read
 
-        global url
+        return redirect('/upload/waiting/')
+
         url = "./media/out.csv"
         df = pd.read_csv(url, names=["UID"], header=None)
         classid = Classroom.objects.get(class_id=classname)
@@ -66,7 +65,8 @@ def uploadhome(request):
                                                                               'border-color': 'Black',
                                                                               'border-width': 'thin',
                                                                               'border-style': 'dotted'})
-        context = {'loaded_data': s.render(), 'button': True}
+        context['loaded_data'] = s.render()
+        context['button'] = True
         return render(request, 'showupload.html', context)
     context = {}
     context['classoptions'] = [str(elem[0]) for elem in list(Classroom.objects.all().values_list('class_id'))]
@@ -75,11 +75,12 @@ def uploadhome(request):
 
 
 def result(request):
+    url = "./media/out.csv"
     df = pd.read_csv(url, names=["UID"], header=None)
     #  print(classname, date, hour, course)
     # todo student class validation course validation , date+hour entry check
     try:
-        classid = Classroom.objects.get(class_id=classname)
+        classid = Classroom.objects.get(class_id=context['classname'])
         for ind in df.index:
             # studenttable.objects.filter(sid=str(df['UID'][ind])).update(status=df['Status'][ind])
             # obj = Student.objects.filter(roll_no=str(df['UID'][ind])).filter(class_id=classname)
@@ -89,9 +90,9 @@ def result(request):
     except Exception as e:
         print(e)
         return render(request, 'resultpage.html', {'error': True})
-    cobj = Course.objects.get(course_id=course)
-    classobj = Classroom.objects.get(class_id=classname)
-    dmy = date.split('/')
+    cobj = Course.objects.get(course_id=context['course'])
+    classobj = Classroom.objects.get(class_id=context['classname'])
+    dmy = context['date'].split('/')
     datestring = dmy[2]+"-"+dmy[1]+"-"+dmy[0]
     absentadd = Student.objects.filter(class_id=classid)
     l = [int(x) for x in df['UID']]
@@ -108,7 +109,7 @@ def result(request):
             stat = '-'
         sobj = Student.objects.get(roll_no=df['UID'][ind], class_id=classid)
         inst = Attendance.objects.create(student_id=sobj, course_id=cobj,
-                                         date=datestring, class_id=classobj, hour=hour,
+                                         date=datestring, class_id=classobj, hour=context['hour'],
                                          status=stat)
     return render(request, 'resultpage.html', {'success': True})
 
