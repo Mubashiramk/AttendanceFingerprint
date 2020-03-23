@@ -85,7 +85,6 @@ def result(request):
             # studenttable.objects.filter(sid=str(df['UID'][ind])).update(status=df['Status'][ind])
             # obj = Student.objects.filter(roll_no=str(df['UID'][ind])).filter(class_id=classname)
             #  print(str(df['UID'][ind]))
-            print("executed")
             obj = Student.objects.get(roll_no=df['UID'][ind], class_id=classid)
     except Exception as e:
         print(e)
@@ -119,9 +118,7 @@ def clear(request):
     return render(request, 'resultpage.html', {'success': True})
 
 
-def testdevice(request):
-    if test_device():
-        messages.info(request, 'The device is connected')
-        return HttpResponseRedirect('/upload/')
-    messages.info(request, 'The device is not connected')
-    return HttpResponseRedirect('/upload/')
+def waitscreen(request):
+    if not test_device():
+        return render(request, "laucherror.html")
+    return render(request, 'waitpress.html', {})
