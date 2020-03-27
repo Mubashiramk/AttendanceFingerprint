@@ -28,7 +28,7 @@ def uploadhome(request):
             context['date'] = date
             hour = request.POST['hour']
             context['hour'] = hour
-            course = request.POST['course']
+            course = request.POST['course'].split(" - ")[0]
             context['course'] = course
             # uploaded_file = request.FILES['document']
             if classname == "" or date == "" or hour == "" or course == "":
@@ -47,8 +47,14 @@ def uploadhome(request):
             return render(request, 'index.html', context)
         return redirect('/upload/waiting/')
     context = {}
+
     context['classoptions'] = [str(elem[0]) for elem in list(Classroom.objects.all().values_list('class_id'))]
-    context['courseoptions'] = [str(elem[0]) for elem in list(Course.objects.all().values_list('course_id'))]
+    courseids = [str(elem[0]) for elem in list(Course.objects.all().values_list('course_id'))]
+    coursenames = [str(elem[0]) for elem in list(Course.objects.all().values_list('course_name'))]
+    courseoptions = []
+    for i in range(len(courseids)):
+        courseoptions.append(courseids[i]+" - "+coursenames[i])
+    context['courseoptions'] = courseoptions
     return render(request, 'index.html', context)
 
 
