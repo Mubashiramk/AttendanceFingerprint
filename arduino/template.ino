@@ -173,41 +173,20 @@ uint8_t findFingerPrint() {
       lcd.clear();
       
 switch (finger.fingerID) { 
- case 0:
-   lcd.print("a");
-   break;
- case 1:
-   lcd.print("b");
-   break;
- case 2:
-   lcd.print("c");
-   break;
- case 3:
-   lcd.print("d");
-   break;
- case 4:
-   lcd.print("e");
-   break;
- case 5:
-   lcd.print("f");
-   break;
- case 6:
-   lcd.print("g");
+ case 27:
+   lcd.print("NEHA MARIA JOJI");
    break;
  case 7:
-   lcd.print("h");
+   lcd.print("SIDHARTH");
    break;
- case 8:
-   lcd.print("i");
+ case 6:
+   lcd.print("RITHVIK");
    break;
- case 9:
-   lcd.print("j");
+ case 5:
+   lcd.print("NIZVA");
    break;
- case 10:
-   lcd.print("k");
-   break;
- case 11:
-   lcd.print("l");
+ case 4:
+   lcd.print("SWATHIKA");
    break;
  default:
    lcd.print("error");
