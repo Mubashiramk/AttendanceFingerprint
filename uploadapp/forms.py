@@ -3,7 +3,7 @@ from django import forms
 
 class StudentForm(forms.Form):
     classes = (
-        ("1", "CSE-GAMMA"),
+        ("1", "outputs"),
         ("2", "CSE-BETA"),
         ("3", "CSE-ALPHA"),
         ("4", "IT"),

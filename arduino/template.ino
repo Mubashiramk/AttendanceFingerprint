@@ -171,27 +171,7 @@ uint8_t findFingerPrint() {
       }
 
       lcd.clear();
-      
-switch (finger.fingerID) { 
- case 27:
-   lcd.print("NEHA MARIA JOJI");
-   break;
- case 7:
-   lcd.print("SIDHARTH");
-   break;
- case 6:
-   lcd.print("RITHVIK");
-   break;
- case 5:
-   lcd.print("NIZVA");
-   break;
- case 4:
-   lcd.print("SWATHIKA");
-   break;
- default:
-   lcd.print("error");
-}
-
+    $replacetext
       delay(2000);
       break;
     case FINGERPRINT_NOTFOUND:
