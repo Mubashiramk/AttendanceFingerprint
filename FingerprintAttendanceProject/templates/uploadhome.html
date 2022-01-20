@@ -1,0 +1,51 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script><title>RSMS</title>
+</head>
+<body>
+<br>
+<h2 style="text-align: center">RSMS ATTENDANCE MANAGEMENT SYSTEM</h2>
+<br>
+<br>
+<h3 style="text-align: center;">Upload The Attendance File</h3>
+<br>
+<form class="form-horizontal" method="post" enctype="multipart/form-data" action="" style="text-align: center">
+    {% csrf_token %}
+    <div class="form-group">
+    <label class="control-label col-sm-2" for="email" style="text-align: center">Class : </label>
+    <div class="col-sm-2">
+      <input type="email" class="form-control" id="email" placeholder="Enter the class" style="text-align: center">
+    </div>
+    <label class="control-label col-sm-2" for="email">Date : </label>
+    <div class="col-sm-2">
+      <input type="email" class="form-control" id="email" placeholder="Enter the date">
+    </div>
+
+
+  </div>
+<br>
+    <input type="file" name="document" >
+    <button type="submit" class="btn btn-primary" >Upload File</button>
+    {% if error %}
+        <div class="alert-danger">
+            Please select a file !
+        </div>
+    {% endif %}
+
+</form>
+</body>
+<style>
+body {
+  background-image: url('/static/images/bg2.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+</style>
+</html>
